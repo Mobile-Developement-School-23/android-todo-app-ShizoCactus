@@ -43,14 +43,12 @@ class TodoEditFragment(val todoItemsRepository: TodoItemsRepository) : Fragment(
             var priority = prioritySpinner.selectedItem.toString()
             if (priority == null)
                 priority = "обычный"
-            // Действия по сохранению дела
             itemsRepository.addTodoItem(TodoItem("1", task, priority, deadline, false, "01.01.2000", "01.01.2000"))
 
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         deleteButton.setOnClickListener {
-            // Действия по удалению дела
             itemsRepository.deleteTodoItem(itemsRepository.getLastItem())
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -62,8 +60,6 @@ class TodoEditFragment(val todoItemsRepository: TodoItemsRepository) : Fragment(
         val year = deadlineDatePicker.year
         val month = deadlineDatePicker.month
         val dayOfMonth = deadlineDatePicker.dayOfMonth
-
-        // Форматирование даты
 
         return "$dayOfMonth.$month.$year"
     }
