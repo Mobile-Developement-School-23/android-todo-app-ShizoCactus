@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,11 +33,12 @@ class TodoListFragment : Fragment() {
 
         val fabAddTodo: FloatingActionButton = view.findViewById(R.id.fabAddTodo)
         fabAddTodo.setOnClickListener {
-            val fragment = TodoEditFragment(todoItemsRepository)
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.toTodoEditFragment)
+//            val fragment = TodoEditFragment(todoItemsRepository)
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.fragmentContainer, fragment)
+//                .addToBackStack(null)
+//                .commit()
         }
 
         return view

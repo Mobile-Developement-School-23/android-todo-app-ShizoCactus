@@ -9,9 +9,11 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
+import java.util.Calendar
+import java.util.Date
 
-class TodoEditFragment(val todoItemsRepository: TodoItemsRepository) : Fragment() {
-    private val itemsRepository = todoItemsRepository
+class TodoEditFragment() : Fragment() {
+    private val itemsRepository = TodoItemsRepository.get_self()
     private lateinit var taskEditText: EditText
     private lateinit var deadlineDatePicker: DatePicker
     private lateinit var prioritySpinner: Spinner
@@ -39,11 +41,18 @@ class TodoEditFragment(val todoItemsRepository: TodoItemsRepository) : Fragment(
 
         saveButton.setOnClickListener {
             val task = taskEditText.text.toString()
-            val deadline = getSelectedDeadline()
-            var priority = prioritySpinner.selectedItem.toString()
-            if (priority == null)
-                priority = "обычный"
-            itemsRepository.addTodoItem(TodoItem("1", task, priority, deadline, false, "01.01.2000", "01.01.2000"))
+            val year = deadlineDatePicker.year
+            val month = deadlineDatePicker.month + 1
+            val day = deadlineDatePicker.dayOfMonth
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, day)
+            val deadline = calendar.time
+            val priority = when(prioritySpinner.selectedItem){
+                "Высокий" -> TodoItem.Priority.HIGH
+                "Низкий" -> TodoItem.Priority.LOW
+                else -> TodoItem.Priority.COMMON
+            }
+            itemsRepository.addTodoItem(TodoItem("1", task, priority, deadline, false, Date(), null))
 
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -54,13 +63,5 @@ class TodoEditFragment(val todoItemsRepository: TodoItemsRepository) : Fragment(
         }
 
         return view
-    }
-
-    private fun getSelectedDeadline(): String {
-        val year = deadlineDatePicker.year
-        val month = deadlineDatePicker.month
-        val dayOfMonth = deadlineDatePicker.dayOfMonth
-
-        return "$dayOfMonth.$month.$year"
     }
 }

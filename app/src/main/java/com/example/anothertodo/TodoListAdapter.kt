@@ -1,10 +1,14 @@
 package com.example.anothertodo
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
 class TodoListAdapter(private val todoItems: List<TodoItem>) :
@@ -26,17 +30,22 @@ class TodoListAdapter(private val todoItems: List<TodoItem>) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val ivStatus: ImageView = itemView.findViewById(R.id.ivStatus)
         private val tvTodoText: TextView = itemView.findViewById(R.id.tvTodoText)
 
         fun bind(todoItem: TodoItem) {
-            if (todoItem.isCompleted) {
-                ivStatus.setImageResource(com.google.android.material.R.drawable.btn_checkbox_checked_mtrl)
-            } else {
-                ivStatus.setImageResource(com.google.android.material.R.drawable.btn_checkbox_unchecked_mtrl)
-            }
-
             tvTodoText.text = todoItem.text
+            val checkBox = itemView.findViewById<CheckBox>(R.id.checked)
+            val textView = itemView.findViewById<TextView>(R.id.tvTodoText)
+            checkBox.isChecked = todoItem.isCompleted
+            if (todoItem.priority == TodoItem.Priority.HIGH){
+                textView.setTextColor(Color.RED)
+            }
+            if (todoItem.priority == TodoItem.Priority.LOW){
+                textView.setTextColor(Color.GREEN)
+            }
+            checkBox.setOnClickListener {
+                todoItem.isCompleted = checkBox.isChecked
+            }
         }
     }
 }
