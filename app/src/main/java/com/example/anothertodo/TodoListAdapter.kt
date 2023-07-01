@@ -37,10 +37,10 @@ class TodoListAdapter(private val todoItems: List<TodoItem>) :
             val checkBox = itemView.findViewById<CheckBox>(R.id.checked)
             val textView = itemView.findViewById<TextView>(R.id.tvTodoText)
             checkBox.isChecked = todoItem.isCompleted
-            if (todoItem.priority == TodoItem.Priority.HIGH){
+            if (todoItem.priority == Priority.HIGH){
                 textView.setTextColor(Color.RED)
             }
-            if (todoItem.priority == TodoItem.Priority.LOW){
+            if (todoItem.priority == Priority.LOW){
                 textView.setTextColor(Color.GREEN)
             }
             checkBox.setOnClickListener {

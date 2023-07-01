@@ -8,12 +8,29 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class TodoListFragment : Fragment() {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://beta.mrdekk.ru/todobackend")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val apiService = retrofit.create(ApiService::class.java)
+
+    private val taskRepository = TaskRepository(apiService)
+    private val taskViewModel = TaskViewModel(taskRepository)
+
+
     private lateinit var todoListAdapter: TodoListAdapter
     private val todoItemsRepository = TodoItemsRepository
 
@@ -26,6 +43,7 @@ class TodoListFragment : Fragment() {
         val rvTodoList: RecyclerView = view.findViewById(R.id.rvTodoList)
 
         val todoItems = todoItemsRepository.getTodoItems()
+//        val todoItems = taskViewModel.tasks.value
         todoListAdapter = TodoListAdapter(todoItems)
 
         rvTodoList.adapter = todoListAdapter
@@ -34,11 +52,23 @@ class TodoListFragment : Fragment() {
         val fabAddTodo: FloatingActionButton = view.findViewById(R.id.fabAddTodo)
         fabAddTodo.setOnClickListener {
             findNavController().navigate(R.id.toTodoEditFragment)
-//            val fragment = TodoEditFragment(todoItemsRepository)
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.fragmentContainer, fragment)
-//                .addToBackStack(null)
-//                .commit()
+        }
+
+        lifecycleScope.launch {
+            taskViewModel.events.collectLatest { event ->
+                when(event) {
+                    TaskEvent.SUCCESS -> {
+
+                    }
+                    TaskEvent.LOADING -> {
+
+                    }
+                    TaskEvent.ERROR -> {
+
+                    }
+                }
+
+            }
         }
 
         return view

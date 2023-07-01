@@ -10,10 +10,10 @@ data class TodoItem(
     var isCompleted: Boolean,
     val createdAt: Date,
     val modifiedAt: Date?,
-) {
-    enum class Priority {
-        LOW,
-        COMMON,
-        HIGH,
-    }
+)
+
+enum class Priority {
+    LOW,
+    COMMON,
+    HIGH,
 }

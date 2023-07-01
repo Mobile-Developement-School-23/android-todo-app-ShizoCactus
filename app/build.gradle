@@ -13,9 +13,8 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
+        manifestPlaceholders = [YANDEX_CLIENT_ID: "0d0970774e284fa8ba9ff70b6b06479a"]    }
 
     buildTypes {
         release {
@@ -42,4 +41,12 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+
+    // rxandroid
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 }

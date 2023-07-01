@@ -1,5 +1,7 @@
 package com.example.anothertodo
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import java.util.Date
 
 object TodoItemsRepository {
@@ -10,7 +12,7 @@ object TodoItemsRepository {
             TodoItem(
                 "100",
                 "Сделать покупки",
-                TodoItem.Priority.HIGH,
+                Priority.HIGH,
                 null,
                 false,
                 Date(),
@@ -21,7 +23,7 @@ object TodoItemsRepository {
             TodoItem(
                 "200",
                 "Выкинуть мусор",
-                TodoItem.Priority.COMMON,
+                Priority.COMMON,
                 null,
                 true,
                 Date(),
@@ -32,7 +34,7 @@ object TodoItemsRepository {
             TodoItem(
                 "300",
                 "Пропылесосить",
-                TodoItem.Priority.LOW,
+                Priority.LOW,
                 null,
                 false,
                 Date(),
@@ -44,7 +46,7 @@ object TodoItemsRepository {
                 TodoItem(
                     i.toString(),
                     "Сделать лабораторную номер $i",
-                    TodoItem.Priority.COMMON,
+                    Priority.COMMON,
                     null,
                     false,
                     Date(),
@@ -57,7 +59,7 @@ object TodoItemsRepository {
                 TodoItem(
                     (i + 10).toString(),
                     "Сделать домашку номер $i",
-                    TodoItem.Priority.COMMON,
+                    Priority.COMMON,
                     null,
                     false,
                     Date(),
@@ -67,7 +69,7 @@ object TodoItemsRepository {
         }
     }
 
-    fun get_self(): TodoItemsRepository {
+    fun getSelf(): TodoItemsRepository {
         return this
     }
 

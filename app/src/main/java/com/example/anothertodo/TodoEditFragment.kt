@@ -13,7 +13,7 @@ import java.util.Calendar
 import java.util.Date
 
 class TodoEditFragment() : Fragment() {
-    private val itemsRepository = TodoItemsRepository.get_self()
+    private val itemsRepository = TodoItemsRepository.getSelf()
     private lateinit var taskEditText: EditText
     private lateinit var deadlineDatePicker: DatePicker
     private lateinit var prioritySpinner: Spinner
@@ -48,9 +48,9 @@ class TodoEditFragment() : Fragment() {
             calendar.set(year, month, day)
             val deadline = calendar.time
             val priority = when(prioritySpinner.selectedItem){
-                "Высокий" -> TodoItem.Priority.HIGH
-                "Низкий" -> TodoItem.Priority.LOW
-                else -> TodoItem.Priority.COMMON
+                "Высокий" -> Priority.HIGH
+                "Низкий" -> Priority.LOW
+                else -> Priority.COMMON
             }
             itemsRepository.addTodoItem(TodoItem("1", task, priority, deadline, false, Date(), null))
 
